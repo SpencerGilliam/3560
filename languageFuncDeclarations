@@ -1,0 +1,22 @@
+{
+  "Languages": [
+                {
+                  "Language": "Python",
+                  "Definer": ["def"]
+                },
+                {
+                  "Language": "C++",
+                  "Definer": ["void", "int", "double", "float", "bool", "dataType"],
+                  //c++ basic definers defined here; any class/struct types declared in all files must be added
+                  //through main search algo program
+                  //remove these lines BEFORE pushing to master, by the way.
+                },
+                {
+                  "Language": "C",
+                  "Definer": ["void", "int", "double", "float", "bool", "dataType"],
+                  //c basic definers defined here; any class/struct types declared in all files must be added
+                  //through main search algo program
+                  //remove these lines BEFORE pushing to master, by the way.
+                }
+  ]
+}
