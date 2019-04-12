@@ -5,10 +5,20 @@
 import re
 
 #langdef: function def for language; ind: line to search from
-def findFuncDec(fileContent, langDef, lineInd):
+def findFuncDec(fileContent, langDefs):
 	#loop this, return all match lines; let back/front interaction do quick maths to get line before.
-	ind = re.search(langDef, fileContent[0])
-	if ind != None:
-		print(ind.span())
-	else:
-		print("No match")
+
+	arrInds = []	#empty list
+
+
+
+	for langDef in langDefs:
+		curLine = 0
+		for line in fileContent:
+			ind = re.search(langDef, line)
+			if ind is not None:
+				arrInds.append(curLine)
+			curLine += 1
+
+
+	return arrInds
