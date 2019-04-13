@@ -14,14 +14,23 @@ LANGUAGE = "Python"		#default Python
 
 FILES = []
 
+fileContent = []
+
 def setLang(lang):
-	LANGUAGE = lang
+    global LANGUAGE
+    LANGUAGE = lang
 
 def setFiles(files):
-	for f in files:
-		FILES.append(f)
+    for f in files:
+        FILES.append(f)
 
-fileContent = \
+def addComment(comment, index):
+    dc.comment(fileContent, comment, index)
+
+
+def getLinesToComment():
+    global fileContent
+    fileContent = \
 	["def Lorem ipsum dolor sit amet, consecteturdef adipiscing elit.",
 	 "Integer luctus dictum leo defvitae gravida.",
 	 "int main",
@@ -32,7 +41,7 @@ fileContent = \
 
 
 with open('languageKeywords.json', encoding='utf-8') as langInfo:
-	data = json.loads(langInfo.read())
+    data = json.loads(langInfo.read())
 
 
 
@@ -43,6 +52,15 @@ for i in data[LANGUAGE]:
 	# to find all function declarations just look for function keywords at beginning of line following names and then parenthesis MAYBE
 
 lines = dc.findFuncDec(fileContent, definers)	#will return lines OF declaration, work BACKWARDS with these to avoid doing
+
+
 											#extra unneeded math to get new line of each function after adding lines
+linesDict = dict()
 for line in lines:
 	print("Function Declared at line:", line)
+	linesDict[line] = fileContent[line]
+
+for key in linesDict:
+	print(linesDict[key])
+
+#return linesDict   #returns dictionary of lines indexed by number so GUI can

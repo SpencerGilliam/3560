@@ -22,3 +22,11 @@ def findFuncDec(fileContent, langDefs):
 
 
 	return arrInds
+
+
+
+def comment(filecontent, comment, index):	#comment will be array of lines to comment
+	comment.reverse()			#reverse comment to place comment in proper order
+	for line in comment:
+		filecontent.insert(index, line)
+	return filecontent		#return new version of filecontent
