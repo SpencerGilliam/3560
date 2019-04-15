@@ -14,8 +14,6 @@ LANGUAGE = "Python"		#default Python
 
 FILES = []
 
-fileContent = []
-
 def setLang(lang):
     global LANGUAGE
     LANGUAGE = lang
@@ -24,43 +22,43 @@ def setFiles(files):
     for f in files:
         FILES.append(f)
 
-def addComment(comment, index):
-    dc.comment(fileContent, comment, index)
+def getFileContent(file):
+	content = ""
+	with open(file) as f:
+		content = f.readlines()
+	content = [tmp.strip('\n') for tmp in content]
+	return content
 
+#print(getFileContent("languageKeywords.json"))
 
-def getLinesToComment():
-    global fileContent
-    fileContent = \
-	["def Lorem ipsum dolor sit amet, consecteturdef adipiscing elit.",
-	 "Integer luctus dictum leo defvitae gravida.",
-	 "int main",
-	 "main int",
-	 "def Sed placerat turpis def eu odio fermentum maximus.",
-	 "Sed eu facilisis def purus."]
+def addComment(file, comment, index):
+    dc.comment(getFileContent(file), comment, index)
 
+def getDefiners():
+	with open('languageKeywords.json', encoding='utf-8') as langInfo:
+		data = json.loads(langInfo.read())
 
+	definers = []
 
-with open('languageKeywords.json', encoding='utf-8') as langInfo:
-    data = json.loads(langInfo.read())
+	for i in data[LANGUAGE]:
+		definers.append(("^" + i))
+	return definers
 
-
-
-definers = []
-
-for i in data[LANGUAGE]:
-	definers.append(("^" + i))
 	# to find all function declarations just look for function keywords at beginning of line following names and then parenthesis MAYBE
+def getLines(file, definers):
+	fileContent = getFileContent(file)
+	lines = dc.findFuncDec(fileContent, definers)	#will return lines OF declaration, work BACKWARDS with these to avoid doing
 
-lines = dc.findFuncDec(fileContent, definers)	#will return lines OF declaration, work BACKWARDS with these to avoid doing
+	linesDict = dict()
+	for line in lines:
+		print("Function Declared at line:", line)
+		linesDict[line] = fileContent[line]
 
+	for key in linesDict:
+		print(key, linesDict[key])
+	return linesDict   #returns dictionary of lines indexed by number so GUI can
 
-											#extra unneeded math to get new line of each function after adding lines
-linesDict = dict()
-for line in lines:
-	print("Function Declared at line:", line)
-	linesDict[line] = fileContent[line]
+def getCustomDataTypes(files, definers):
+	pass	#for each file in files, open, read, look for class/struct declarations. return new definers list
 
-for key in linesDict:
-	print(linesDict[key])
-
-#return linesDict   #returns dictionary of lines indexed by number so GUI can
+getLines("languageKeywords.json", "\"")
