@@ -26,7 +26,7 @@ def getFileContent(file):
 	content = ""
 	with open(file) as f:
 		content = f.readlines()
-	content = [tmp.strip('\n') for tmp in content]
+	content = [tmp.strip('\n\t') for tmp in content]
 	return content
 
 #print(getFileContent("languageKeywords.json"))
@@ -34,17 +34,35 @@ def getFileContent(file):
 def addComment(file, comment, index):
     dc.comment(getFileContent(file), comment, index)
 
-def getDefiners():
+def getDefiners(lang):
 	with open('languageKeywords.json', encoding='utf-8') as langInfo:
 		data = json.loads(langInfo.read())
 
 	definers = []
 
-	for i in data[LANGUAGE]:
+	for i in data[lang]:
 		definers.append(("^" + i))
+		print(i)
 	return definers
 
-	# to find all function declarations just look for function keywords at beginning of line following names and then parenthesis MAYBE
+def getClasses(definers):
+	content = []
+	for file in FILES:
+		content = getFileContent(file)
+		lines = []
+		tmpDef = ["^class"]
+		lines = dc.findFuncDec(content, tmpDef)
+
+		linesDict = dict()
+		for line in lines:
+			print("Class Declared at line:", line)
+			linesDict[line] = content[line]
+
+		for key in linesDict:
+			print(key, linesDict[key])
+
+	return definers
+# to find all function declarations just look for function keywords at beginning of line following names and then parenthesis MAYBE
 def getLines(file, definers):
 	fileContent = getFileContent(file)
 	lines = dc.findFuncDec(fileContent, definers)	#will return lines OF declaration, work BACKWARDS with these to avoid doing
@@ -61,4 +79,11 @@ def getLines(file, definers):
 def getCustomDataTypes(files, definers):
 	pass	#for each file in files, open, read, look for class/struct declarations. return new definers list
 
-getLines("languageKeywords.json", "\"")
+FILES.append("Test Code/PythonTestCode.py")
+definers = getDefiners("Python")
+if definers[0] != "def":
+	getClasses(definers)
+
+contents = getLines(FILES[0], definers)
+
+#print(contents)
