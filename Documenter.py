@@ -10,8 +10,6 @@ def findFuncDec(fileContent, langDefs):
 
 	arrInds = []	#empty list
 
-
-
 	for langDef in langDefs:
 		curLine = 0
 		for line in fileContent:
@@ -22,8 +20,6 @@ def findFuncDec(fileContent, langDefs):
 
 
 	return arrInds
-
-
 
 def comment(filecontent, comment, index):	#comment will be array of lines to comment
 	comment.reverse()			#reverse comment to place comment in proper order
