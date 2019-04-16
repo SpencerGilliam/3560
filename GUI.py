@@ -1,10 +1,11 @@
 from tkinter import*
 from tkinter import Menu
+from tkinter import filedialog
 
 root = Tk()
-root.geometry("300x300")
+root.geometry("800x500")
 
-mb = Menubutton(root, text="Welcome to the Menu")
+mb = Menubutton(root, text="Menu")
 mb.menu = Menu(mb)
 mb["menu"] = mb.menu
 
@@ -13,21 +14,29 @@ mb.menu.add_command(label="C++", command=lambda: print("C++"))
 
 mb.pack()
 
-def doNothing():
-        print("I won`t")
+def OpenFile(root):
+    filez = filedialog.askopenfilenames(parent=root,title='Choose a file')
+    filez = root.tk.splitlist(filez)
+    print ("list of files =",filez)
 
-menu =  Menu(root)
-root.config(menu=menu)
+button = Button(text="Open File",width = 30,command=lambda: OpenFile(root))
+button.pack()
 
-subMenu: Menu = Menu(menu)
-menu.add_cascade(label="File", menu=subMenu)
-subMenu.add_command(label="file1", command=doNothing)
-subMenu.add_command(label="file2", command=doNothing)
-subMenu.add_command(label="file3", command=doNothing)
-subMenu.add_command(label="Exit", command=doNothing)
+# def doNothing():
+#         print("I won`t")
 
-editMenu = Menu(menu)
-menu.add_cascade(label="Edit", menu=editMenu)
-editMenu.add_command(label="redo", command=doNothing)
+# menu =  Menu(root)
+# root.config(menu=menu)
+#
+# subMenu: Menu = Menu(menu)
+# menu.add_cascade(label="File", menu=subMenu)
+# subMenu.add_command(label="New Project", command=doNothing)
+# subMenu.add_command(label="file2", command=doNothing)
+# subMenu.add_command(label="file3", command=doNothing)
+# subMenu.add_command(label="Exit", command=doNothing)
+#
+# editMenu = Menu(menu)
+# menu.add_cascade(label="Edit", menu=editMenu)
+# editMenu.add_command(label="redo", command=doNothing)
 
 root.mainloop()
