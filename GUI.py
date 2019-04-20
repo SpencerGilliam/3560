@@ -1,11 +1,13 @@
 from tkinter import*
 from tkinter import Menu
 from tkinter import filedialog
+import os
+# from tkfilebrowser import askopendirname, askopenfilenames, asksaveasfilename
 
 root = Tk()
 root.geometry("800x500")
 
-mb = Menubutton(root, text="Menu")
+mb = Menubutton(root, text="PyAutoDoc Menu")
 mb.menu = Menu(mb)
 mb["menu"] = mb.menu
 
@@ -15,11 +17,17 @@ mb.menu.add_command(label="C++", command=lambda: print("C++"))
 mb.pack()
 
 def OpenFile(root):
-    filez = filedialog.askopenfilenames(parent=root,title='Choose a file')
+    filez = filedialog.askopenfilenames(parent=root, initialdir='/',initialfile='',filetypes=[("PNG", "*"),("JPEG", "*.jpg"),("All files", "*")])
     filez = root.tk.splitlist(filez)
+    path = "C:\\Documents and Settings\\user\\Desktop\\Folder\\File1.txt"
+    temp = path.split('\\')
+    filename = temp[-1]
+    print (filename)
+    fileName = os.path.basename(path)
     print ("list of files =",filez)
+    filez = root.tk.splitlist(filez)
 
-button = Button(text="Open File",width = 30,command=lambda: OpenFile(root))
+button = Button(text="Select Files",width = 30,command=lambda: OpenFile(root))
 button.pack()
 
 # def doNothing():
