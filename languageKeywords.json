@@ -1,6 +1,6 @@
 {
 
-  "Python": ["def"],
+  "Python": ["def", "class"],
   "C": ["void", "static", "int", "double", "float", "bool", "dataType"],
   "C++": ["void", "static", "int", "double", "float", "bool", "dataType"],
   "C#": [],
