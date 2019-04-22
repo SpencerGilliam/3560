@@ -32,7 +32,11 @@ def getFileContent(file):
 #print(getFileContent("languageKeywords.json"))
 
 def addComment(file, comment, index):
-    dc.comment(getFileContent(file), comment, index)
+	newContent = dc.comment(getFileContent(file), comment, index)
+	f = open(file, 'w')
+	newContent = "\n".join(newContent)
+	if newContent != "machine broke error":
+		f.write(newContent)
 
 def getDefiners(lang):
 	with open('languageKeywords.json', encoding='utf-8') as langInfo:
@@ -79,11 +83,28 @@ def getLines(file, definers):
 def getCustomDataTypes(files, definers):
 	pass	#for each file in files, open, read, look for class/struct declarations. return new definers list
 
-FILES.append("Test Code/PythonTestCode.py")
+FILES.append("Test Code\doctumentorTest.py")
+FILES.append("Test Code\doumentorTest2.py")
 definers = getDefiners("Python")
 if definers[0] != "def":
-	getClasses(definers)
+	definers = getClasses(definers)
 
-contents = getLines(FILES[0], definers)
+content = []
+for i in range(FILES.__len__()):
+	content.append(getLines(FILES[i], definers))
 
-#print(contents)
+comment = ["#test line 1 appear first", "#test line 2 appear second"]
+#soon replace # in string with commentDef[LANG]
+cont = []
+for i in range(0, FILES.__len__()):
+	cont.append(list(reversed(sorted(content[i].keys()))))
+coms = []
+i = 0
+for f in FILES:
+	for key in cont[i]:
+		comment = input("comment for line " + str(content[i][key]) + " -> ")
+		comment = "#" + comment
+		coms.append(comment)
+		addComment(f, coms, key)
+		coms.clear()
+	i += 1
