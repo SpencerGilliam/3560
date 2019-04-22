@@ -1,34 +1,50 @@
-from tkinter import*
-from tkinter import Menu
+from tkinter import *
 from tkinter import filedialog
-import os
-# from tkfilebrowser import askopendirname, askopenfilenames, asksaveasfilename
+import pprint  # added import
+import tkinter as tk
+from tkinter.ttk import Combobox
 
-root = Tk()
-root.geometry("800x500")
+filelist = []  # added line
+root = tk.Tk()
+root.geometry("500x500")
 
 mb = Menubutton(root, text="PyAutoDoc Menu")
-mb.menu = Menu(mb)
-mb["menu"] = mb.menu
 
-mb.menu.add_command(label="Python", command=lambda: print("Python"))
-mb.menu.add_command(label="C++", command=lambda: print("C++"))
-
+button = Button(text="Languages", width=30, command=lambda: Language)
+button.place(relx=0.5, rely=0.5, anchor=CENTER)
 mb.pack()
 
-def OpenFile(root):
-    filez = filedialog.askopenfilenames(parent=root, initialdir='/',initialfile='',filetypes=[("PNG", "*"),("JPEG", "*.jpg"),("All files", "*")])
-    filez = root.tk.splitlist(filez)
-    path = "C:\\Documents and Settings\\user\\Desktop\\Folder\\File1.txt"
-    temp = path.split('\\')
-    filename = temp[-1]
-    print (filename)
-    fileName = os.path.basename(path)
-    print ("list of files =",filez)
-    filez = root.tk.splitlist(filez)
 
-button = Button(text="Select Files",width = 30,command=lambda: OpenFile(root))
-button.pack()
+#################################################################################################################
+class Language(tk.Frame):
+    def __init__(self, parent):
+        tk.Frame.__init__(self, parent)
+        choiceVar = tk.StringVar()
+        choices = ("Python", "C++", "C", "Ruby")
+        choiceVar.set(choices[0])
+
+        cb = Combobox(self, textvariable=choiceVar, values=choices)
+
+        cb.pack()
+
+
+
+if __name__ == "__main__":
+    Language(root).pack(fill="both", expand=True)
+
+###############################################################################################################
+def OpenFile(root, filelist):
+    filez = filedialog.askopenfilenames(parent=root, title='Select files')
+    filez = root.tk.splitlist(filez)
+    filelist += filez  # added line
+    pp = pprint.PrettyPrinter(indent=0)  # added line
+    pp.pprint(filelist)  # added line
+
+
+button = Button(text="Select Files", width=30, command=lambda: OpenFile(root, filelist))
+button.pack(padx=25, pady=20, side=tk.TOP)
+
+root.mainloop()
 
 # def doNothing():
 #         print("I won`t")
