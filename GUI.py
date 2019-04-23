@@ -37,7 +37,6 @@ if __name__ == "__main__":
 def FileBox ():
     #Text box is not showing up
 
-
 ########################################################################################################################
 def OpenFile(root, filelist): # Select Files function, produces a button, and allows you to choose multiple files
     filez = filedialog.askopenfilenames(parent=root, title='Select files')
