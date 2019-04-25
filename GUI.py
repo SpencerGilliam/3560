@@ -34,38 +34,22 @@ button.place(relx=0.5, rely=0.5, anchor=CENTER)
 if __name__ == "__main__":
     Language(root).pack(fill="both", expand=True)
 ########################################################################################################################
-def FileBox ():
-    #Text box is not showing up
-
-########################################################################################################################
-def OpenFile(root, filelist): # Select Files function, produces a button, and allows you to choose multiple files
-    filez = filedialog.askopenfilenames(parent=root, title='Select files')
-    filez = root.tk.splitlist(filez)
-    filelist += filez  # added line
-    pp = pprint.PrettyPrinter(indent=0)  # added line
-    pp.pprint(filelist)  # added line
+    def OpenFile(root, filelist): #Select Files function, produces a button, and allows you to choose multiple files
+        filez = filedialog.askopenfilenames(parent=root, title='Select files')
+        filez = root.tk.splitlist(filez)
+        filelist += filez  # added line
+        pp = pprint.PrettyPrinter(indent=0)  # added line
+        pp.pprint(filelist)  # added line
 
 
 button = Button(text="Select Files", width=30, command=lambda: OpenFile(root, filelist))
 button.pack(padx=25, pady=20, side=tk.TOP)
+
+# def MenuBox(self):
+
+
+
+
 root.mainloop()
+
 ########################################################################################################################
-
-
-# def doNothing():
-#         print("I won`t")
-
-# menu =  Menu(root)
-# root.config(menu=menu)
-#
-# subMenu: Menu = Menu(menu)
-# menu.add_cascade(label="File", menu=subMenu)
-# subMenu.add_command(label="New Project", command=doNothing)
-# subMenu.add_command(label="file2", command=doNothing)
-# subMenu.add_command(label="file3", command=doNothing)
-# subMenu.add_command(label="Exit", command=doNothing)
-#
-# editMenu = Menu(menu)
-# menu.add_cascade(label="Edit", menu=editMenu)
-# editMenu.add_command(label="redo", command=doNothing)
-
