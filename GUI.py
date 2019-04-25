@@ -38,16 +38,39 @@ if __name__ == "__main__":
         filez = filedialog.askopenfilenames(parent=root, title='Select files')
         filez = root.tk.splitlist(filez)
         filelist += filez  # added line
-        pp = pprint.PrettyPrinter(indent=0)  # added line
-        pp.pprint(filelist)  # added line
+        Filebox(root, filelist)
 
 
 button = Button(text="Select Files", width=30, command=lambda: OpenFile(root, filelist))
 button.pack(padx=25, pady=20, side=tk.TOP)
 
-# def MenuBox(self):
+button2 = Button(text="Enter Commands", width=30, command=lambda: EnterComs(root))
+button2.pack(padx=25, pady=10, side=tk.TOP)
 
+#####################################################################################################
+def Filebox(root, filelist): #opens a child window that displays the current selected files
+	win1 = tk.Toplevel(bg = 'white')
+	win1.title('Selected files')
+	win1.geometry("600x600") #creates child window
+	textbox = Text(win1)
+	textbox.pack() #makes textbox
+	def redirector(inputStr):
+		textbox.insert(INSERT, inputStr) #function to redirect output
+	sys.stdout.write = redirector #set sysout to redirector
+	pp = pprint.PrettyPrinter(indent = 0)
+	pp.pprint(filelist) #print out list
+	textbox.config(state = DISABLED) #disable textbox so user cant mess with it
+######################################################################################################
 
+######################################################################################################
+def EnterComs(root): #opens a child window that allows user to type in (has no actual functionality yet)
+	win2 = tk.Toplevel(bg = 'white')
+	win2.title("Enter Commands")
+	win2.geometry("600x600") #creates child window
+	textbox = Text(win2)
+	textbox.pack()
+	textbox.insert(INSERT, "Enter your commands: ") #makes window textbox and adds text at beginning
+#######################################################################################################
 
 
 root.mainloop()
