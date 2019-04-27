@@ -26,22 +26,27 @@ class Language(tk.Frame):  # Allow you to choose your language
 
         cb.pack()
 
-
-button = Button(text="Languages", width=30, command=lambda: Language)
-button.place(relx=0.5, rely=0.5, anchor=CENTER)
+#button = Button(text="Languages", width=30, command=lambda: Language)
+#button.place(relx=0.5, rely=0.5, anchor="center")
 
 if __name__ == "__main__":
     Language(root).pack(fill="both", expand=True)
 
 
 ########################################################################################################################
-    def OpenFile(root, filelist):  # Select Files function, produces a button, and allows you to choose multiple files
+    def OpenFile(root, filelist, textbox):  # Select Files function, produces a button, and allows you to choose multiple files
         filez = filedialog.askopenfilenames(parent=root, title='Select files')
         filez = root.tk.splitlist(filez) #splits file list
         filelist += filez  # added line
-        Filebox(root, filelist)
+        Filebox(root, filelist, textbox)
 
-button = Button(text="Select Files", width=30, command=lambda: OpenFile(root, filelist))
+textbox = Text(root)
+textbox.pack()
+textbox.config(height = 15)
+textbox.config(width = 50)
+textbox.config(state = DISABLED)
+
+button = Button(text="Select Files", width=30, command=lambda: OpenFile(root, filelist, textbox))
 button.pack(padx=25, pady=20, side=tk.TOP)
 
 button2 = Button(text="Document", width=30, command=lambda: EnterComs(root))
@@ -49,17 +54,13 @@ button2.pack(padx=25, pady=10, side=tk.TOP)
 
 
 #####################################################################################################
-def Filebox(root, filelist):  # opens a child window that displays the current selected files
-    win1 = tk.Toplevel(bg='white')
-    win1.title('Selected files')
-    win1.geometry("600x600")  # creates child window
-    textbox = Text(win1)
-    textbox.pack()  # makes textbox
-
+def Filebox(root, filelist, textbox):  # opens a child window that displays the current selected file
+    textbox.config(state=NORMAL)
     def redirector(inputStr):
         textbox.insert(INSERT, inputStr)  # function to redirect output
 
     sys.stdout.write = redirector  # set sysout to redirector
+    textbox.delete("1.0", END)
     pp = pprint.PrettyPrinter(indent=0)
     pp.pprint(filelist)  # print out list
     textbox.config(state=DISABLED)  # disable textbox so user cant mess with it
@@ -84,10 +85,15 @@ def EnterComs(root):  # opens a child window that allows user to type in
     e5 = Entry(win2)
 
     e1.grid(row=0, column=1, padx=5, pady=5)
+    e1.config(width = 40)
     e2.grid(row=1, column=1, padx=5, pady=5)
+    e2.config(width = 40)
     e3.grid(row=2, column=1, padx=5, pady=5)
+    e3.config(width = 40)
     e4.grid(row=3, column=1, padx=5, pady=5)
+    e4.config(width = 40)
     e5.grid(row=4, column=1, padx=5, pady=5)
+    e5.config(width = 40)
     
     Button(win2, text="No Comment").grid(row=9, column=0, padx=40, pady=30)
     Button(win2, text=">>" ).grid(row=9, column=1, padx=25, pady=30)
