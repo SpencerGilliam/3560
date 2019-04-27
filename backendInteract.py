@@ -52,7 +52,7 @@ def getDefiners(lang):
 
 	for i in data[lang]:
 		definers.append(("(^|\t| )" + i))
-		print(i)
+		#print(i)
 	return definers
 
 #do NOT call this one
@@ -65,11 +65,11 @@ def getClasses(definers):
 
 		linesDict = dict()
 		for line in lines:
-			print("Class Declared at line:", line)
+		#	print("Class Declared at line:", line)
 			linesDict[line] = content[line]
 
-		for key in linesDict:
-			print(key, linesDict[key])
+		#for key in linesDict:
+		#	print("a ", key, linesDict[key])
 
 	return definers
 
@@ -80,12 +80,18 @@ def getLines(file, definers):
 
 	linesDict = dict()
 	for line in lines:
-		print("Function Declared at line:", line)
+		#print("Function Declared at line:", line)
 		linesDict[line] = fileContent[line]
 
 	for key in linesDict:
-		print(key, linesDict[key])
+		#print(key, linesDict[key])
 	return linesDict   #returns dictionary of lines indexed by number so GUI can
 
-def getCustomDataTypes(files, definers):
-	pass	#for each file in files, open, read, look for class/struct declarations. return new definers list
+def getCustomDataTypes(definers):
+	classes = ["(^|\t| )class"]
+	for file in FILES:
+		lines = getLines(file, classes)
+		if lines is not None:
+			#print(lines)
+
+	#pass	#for each file in files, open, read, look for class/struct declarations. return new definers list
