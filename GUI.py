@@ -71,19 +71,33 @@ def Filebox(root, filelist):  # opens a child window that displays the current s
 def EnterComs(root):  # opens a child window that allows user to type in
     win2: Toplevel = tk.Toplevel(bg='white')
     win2.title("Function Documentation")
-    win2.geometry("900x600")  # creates child window
-    textbox = Text(win2)
-    textbox.pack()
-    textbox.insert(INSERT, "Function name: \n"
-                           "Expected return type:\n"
-                           "Info on each of the parameters (Include how you have passed your ref/val):\n"
-                           "Possible errors this code may throw that can change possible variables:\n"
-                           "Description of Function: \n")  # makes window textbox and adds text at beginning
+    win2.geometry("900x600") # creates child window
+    Label(win2, text="Function name:").grid(row=0, padx=5, pady=5)
+    Label(win2, text="Expected return type:").grid(row=1, padx=5, pady=5)
+    Label(win2, text="Info on each of the parameters (Include how you passed your ref/val):").grid(row=2, padx=5, pady=5)
+    Label(win2, text="Possible errors this code may throw that can change possible variables:").grid(row=3, padx=5, pady=5)
+    Label(win2, text="Description of function:").grid(row=4, padx=5, pady=5)
+    e1 = Entry(win2)
+    e2 = Entry(win2)
+    e3 = Entry(win2)
+    e4 = Entry(win2)
+    e5 = Entry(win2)
 
-    win1 = tk.Button(win2, text='No Comment')
-    win1.pack(padx=40, pady=30, side=tk.TOP)
-    win2 = tk.Button(win2, text='>>')
-    win2.pack(padx=25,pady=30,side=tk.TOP)
+    e1.grid(row=0, column=1, padx=5, pady=5)
+    e2.grid(row=1, column=1, padx=5, pady=5)
+    e3.grid(row=2, column=1, padx=5, pady=5)
+    e4.grid(row=3, column=1, padx=5, pady=5)
+    e5.grid(row=4, column=1, padx=5, pady=5)
+    
+    Button(win2, text="No Comment").grid(row=9, column=0, padx=40, pady=30)
+    Button(win2, text=">>" ).grid(row=9, column=1, padx=25, pady=30)
+
+    textbox = Text(win2)
+    textbox.grid(row = 10, column = 0)
+    textbox.config(width = 40)
+    textbox.config(height = 1)
+    textbox.config(state = DISABLED)
+
 
 
 #######################################################################################################
