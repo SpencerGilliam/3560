@@ -3,6 +3,7 @@ from tkinter import filedialog, Tk, Toplevel
 import pprint  # added import
 import tkinter as tk
 from tkinter.ttk import Combobox
+from backendInteract import *
 
 filelist = []  # added line
 root: Tk = tk.Tk()
@@ -14,31 +15,32 @@ mb.pack()
 
 
 ########################################################################################################################
-class Language(tk.Frame):  # Allow you to choose your language
+class Language(tk.Frame):  # Dropbox
     def __init__(self, parent):
         tk.Frame.__init__(self, parent)
-        choiceVar = tk.StringVar()
-        choices = ("Python", "C++", "C", "Ruby", "C#", "Go", "Java", "Javascript"  # Maybe Set up dynamically later
-                   , "PHP", "Kotlin", "Scala", "Haskell", "Lua", "Rust", "Perl")  # Language Choices
-        choiceVar.set(choices[0])
-
-        cb = Combobox(self, textvariable=choiceVar, values=choices, state="readonly")  # Drop down menu
-
+        cb = Combobox(self, textvariable=tk.StringVar(), values=["Python", "C++", "C", "Ruby", "C#", "Go", "Java", "Javascript"  # Maybe Set up dynamically later
+                                                                , "PHP", "Kotlin", "Scala", "Haskell", "Lua", "Rust", "Perl"],
+                                                                state="readonly")  # Drop down menu
+        
         cb.pack()
+        cb.bind("<<ComboboxSelected>>", lambda event, arg=cb: self.callback(event, arg))
 
-#button = Button(text="Languages", width=30, command=lambda: Language)
-#button.place(relx=0.5, rely=0.5, anchor="center")
+    def callback(self, event, arg):
+        setLang(arg.get())
+
 
 if __name__ == "__main__":
     Language(root).pack(fill="both", expand=True)
 
 
 ########################################################################################################################
-    def OpenFile(root, filelist, textbox):  # Select Files function, produces a button, and allows you to choose multiple files
-        filez = filedialog.askopenfilenames(parent=root, title='Select files')
-        filez = root.tk.splitlist(filez) #splits file list
-        filelist += filez  # added line
-        Filebox(root, filelist, textbox)
+def OpenFile(root, filelist, textbox):  # Select Files function, produces a button, and allows you to choose multiple files
+    filez = filedialog.askopenfilenames(parent=root, title='Select files')
+    filez = root.tk.splitlist(filez) #splits file list
+    filelist += filez  # added line
+    Filebox(root, filelist, textbox)
+    setFiles(filelist)
+######################################################################################################################
 
 textbox = Text(root)
 textbox.pack()
@@ -96,7 +98,7 @@ def EnterComs(root):  # opens a child window that allows user to type in
     e5.config(width = 40)
     
     Button(win2, text="No Comment").grid(row=9, column=0, padx=40, pady=30)
-    Button(win2, text=">>" ).grid(row=9, column=1, padx=25, pady=30)
+    Button(win2, text=">>").grid(row=9, column=1, padx=25, pady=30)
 
     textbox = Text(win2)
     textbox.grid(row = 10, column = 0)

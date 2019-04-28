@@ -14,12 +14,12 @@ LANGUAGE = "Python"		#default Python
 
 FILES = []
 
-#call like bi.setLang
+#call like bi.setLang (DONE)
 def setLang(lang):
     global LANGUAGE
     LANGUAGE = lang
 
-#call like bi.setFiles(fileList)
+#call like bi.setFiles(fileList) (DONE)
 def setFiles(files):
     for f in files:
         FILES.append(f)
@@ -34,7 +34,7 @@ def getFileContent(file):
 
 #print(getFileContent("languageKeywords.json"))
 
-#call this in child window when user accepts their comment input like addComment(curFile, commentList, index)
+#call this in child window when user accepts their comment input like addComment(curFile, commentList, index) (NEEDS DONE)
 						#get index arg from dict that is returned by getLines
 def addComment(file, comment, index):
 	newContent = dc.comment(getFileContent(file), comment, index)
@@ -73,7 +73,7 @@ def getClasses(definers):
 
 	return definers
 
-#call from GUI in child window process while asking to comment
+#call from GUI in child window process while asking to comment (NEEDS DONE)
 def getLines(file, definers):
 	fileContent = getFileContent(file)
 	lines = dc.findFuncDec(fileContent, definers)	#will return lines OF declaration, work BACKWARDS with these to avoid doing
@@ -83,7 +83,7 @@ def getLines(file, definers):
 		#print("Function Declared at line:", line)
 		linesDict[line] = fileContent[line]
 
-	for key in linesDict:
+	#for key in linesDict:
 		#print(key, linesDict[key])
 	return linesDict   #returns dictionary of lines indexed by number so GUI can
 
@@ -91,7 +91,7 @@ def getCustomDataTypes(definers):
 	classes = ["(^|\t| )class"]
 	for file in FILES:
 		lines = getLines(file, classes)
-		if lines is not None:
+		#if lines is not None:
 			#print(lines)
 
-	#pass	#for each file in files, open, read, look for class/struct declarations. return new definers list
+		#for each file in files, open, read, look for class/struct declarations. return new definers list
