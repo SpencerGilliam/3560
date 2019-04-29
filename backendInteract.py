@@ -39,9 +39,15 @@ def getFileContent(file):
 def addComment(file, comment, index):
 	newContent = dc.comment(getFileContent(file), comment, index)
 	f = open(file, 'w')
-	newContent = "\n".join(newContent)
-	if newContent != "machine broke error":
-		f.write(newContent)
+	comChar = getComments(LANGUAGE)
+	comContent = []
+
+	for line in newContent:
+		comContent.append(comChar + line)
+
+	comContent = "\n".join(newContent)
+	if comContent != "machine broke error":
+		f.write(comContent)
 
 #do NOT call this one
 def getDefiners(lang):
@@ -54,6 +60,14 @@ def getDefiners(lang):
 		definers.append(("(^|\t| )" + i))
 		#print(i)
 	return definers
+
+def getComments(lang):
+	with open('languageComments.json', encoding='utf-8') as comInfo:
+		data = json.loads(comInfo.read())
+
+	comments = data[lang]
+
+	return comments
 
 #do NOT call this one
 def getClasses(definers):
