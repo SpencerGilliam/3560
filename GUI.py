@@ -112,7 +112,7 @@ def EnterComs(root):  # opens a child window that allows user to type in
     e5.config(width=40)
     
     Button(win2, text="No Comment").grid(row=9, column=0, padx=40, pady=30)
-    Button(win2, text=">>", command=lambda:retrieve_input(i, j, lines)).grid(row=9, column=1, padx=25, pady=30)
+    Button(win2, text=">>", command=lambda:retrieve_input(j, lines)).grid(row=9, column=1, padx=25, pady=30)
 
     textbox = Text(win2)
     textbox.grid(row=10, column=0)
@@ -122,7 +122,13 @@ def EnterComs(root):  # opens a child window that allows user to type in
     textbox.insert(END, lines[i])
     textbox.config(state=DISABLED)
 
-    def retrieve_input(i, j, lines):
+    def retrieve_input(j, lines):
+        i = 0
+        i = find(lines, i)
+        if i == -1:
+            j = j + 1
+            lines = getLines(filelist[j], definers)
+            i = 0
         entries = []
         temp = e1.get()
         if(temp != ""):
@@ -140,22 +146,26 @@ def EnterComs(root):  # opens a child window that allows user to type in
         if(temp != ""):
             entries.append(temp)
         addComment(filelist[j],entries,i)
-        lines.pop(i, None)
         e1.delete(0, "end")
         e2.delete(0, "end")
         e3.delete(0, "end")
         e4.delete(0, "end")
         e5.delete(0, "end")
-        i = find(lines, i)
-        if i == -1:
-            j = j + 1
-            lines = getLines(filelist[j], definers)
-            i = 0
-        textbox.config(state=NORMAL)
-        textbox.delete("1.0", END)
-        textbox.insert(END, lines[i])
-        textbox.config(state=DISABLED)
+        
+        lines.pop(i, None)
+        display_next(j, lines, textbox)
 
+def display_next(j, lines, textbox):
+    i = 0
+    i = find(lines, i)
+    if i == -1:
+        j = j + 1
+        lines = getLines(fileslist[j], definers)
+        i = 0
+    textbox.config(state=NORMAL)
+    textbox.delete("1.0", END)
+    textbox.insert(END, lines[i])
+    textbox.config(state=DISABLED)
 
 def find(lines, i):
     while not i in lines:
