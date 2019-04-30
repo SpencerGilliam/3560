@@ -79,8 +79,11 @@ def Filebox(root, filelist, textbox):  # opens a child window that displays the 
 
 ######################################################################################################
 def EnterComs(root):  # opens a child window that allows user to type in
+    i = 0
+    j = 0
     definers = getDefiners(LANGUAGE)
     lines = getLines(filelist[0], definers)
+    i = find(lines, i)
     win2: Toplevel = tk.Toplevel(bg='white')
     win2.title("Function Documentation")
     win2.geometry("900x600")  # creates child window
@@ -107,48 +110,63 @@ def EnterComs(root):  # opens a child window that allows user to type in
     e4.config(width=40)
     e5.grid(row=4, column=1, padx=5, pady=5)
     e5.config(width=40)
-
+    
     Button(win2, text="No Comment").grid(row=9, column=0, padx=40, pady=30)
-    Button(win2, text=">>", command=lambda:retrieve_input()).grid(row=9, column=1, padx=25, pady=30)
+    Button(win2, text=">>", command=lambda:retrieve_input(i, j, lines)).grid(row=9, column=1, padx=25, pady=30)
 
     textbox = Text(win2)
     textbox.grid(row=10, column=0)
     textbox.config(width=40)
     textbox.config(height=1)
+    #textbox.insert(END, filelist[j])
+    textbox.insert(END, lines[i])
     textbox.config(state=DISABLED)
 
-    def retrieve_input():
+    def retrieve_input(i, j, lines):
         entries = []
         temp = e1.get()
-        entries.append(temp)
+        if(temp != ""):
+            entries.append(temp)
         temp = e2.get()
-        entries.append(temp)
+        if(temp != ""):
+            entries.append(temp)
         temp = e3.get()
-        entries.append(temp)
+        if(temp != ""):
+            entries.append(temp)
         temp = e4.get()
-        entries.append(temp)
+        if(temp != ""):
+            entries.append(temp)
         temp = e5.get()
-        entries.append(temp)
-        addComment(filelist[0],entries,0)
+        if(temp != ""):
+            entries.append(temp)
+        addComment(filelist[j],entries,i)
+        lines.pop(i, None)
+        e1.delete(0, "end")
+        e2.delete(0, "end")
+        e3.delete(0, "end")
+        e4.delete(0, "end")
+        e5.delete(0, "end")
+        i = find(lines, i)
+        if i == -1:
+            j = j + 1
+            lines = getLines(filelist[j], definers)
+            i = 0
+        textbox.config(state=NORMAL)
+        textbox.delete("1.0", END)
+        textbox.insert(END, lines[i])
+        textbox.config(state=DISABLED)
 
 
+def find(lines, i):
+    while not i in lines:
+        i = i + 1
+    if not bool(lines):
+        return -1
+    else:
+        return i
 
 
-
-
-#######################################################################################################
-# def YesNo():
-#     if entry.get() == "!":
-#         slabel = tkinter.Label(root, text="You have choosen to skip this line")
-#         slabel.pack()
-#     else:
-#         tlabel = tkinter.Label(root, text="")
-#         tlabel.pack()
-#
-
-#######################################################################################################
-
-
+#problem: cannot go past second function in file and only outputs to top function. might be scope issue
 root.mainloop()
 
 ########################################################################################################################

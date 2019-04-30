@@ -1,6 +1,6 @@
 
-
-
+#func
+#funcTests
 class funcTests():
 
 
