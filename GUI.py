@@ -1,3 +1,4 @@
+import tkinter
 from tkinter import *
 from tkinter import filedialog, Tk, Toplevel
 import pprint  # added import
@@ -18,10 +19,12 @@ mb.pack()
 class Language(tk.Frame):  # Dropbox
     def __init__(self, parent):
         tk.Frame.__init__(self, parent)
-        cb = Combobox(self, textvariable=tk.StringVar(), values=["Python", "C++", "C", "Ruby", "C#", "Go", "Java", "Javascript"  # Maybe Set up dynamically later
-                                                                , "PHP", "Kotlin", "Scala", "Haskell", "Lua", "Rust", "Perl"],
-                                                                state="readonly")  # Drop down menu
-        
+        cb = Combobox(self, textvariable=tk.StringVar(),
+                      values=["Python", "C++", "C", "Ruby", "C#", "Go", "Java", "Javascript"
+                              # Maybe Set up dynamically later
+                          , "PHP", "Kotlin", "Scala", "Haskell", "Lua", "Rust", "Perl"],
+                      state="readonly")  # Drop down menu
+
         cb.pack()
         cb.bind("<<ComboboxSelected>>", lambda event, arg=cb: self.callback(event, arg))
 
@@ -34,19 +37,22 @@ if __name__ == "__main__":
 
 
 ########################################################################################################################
-def OpenFile(root, filelist, textbox):  # Select Files function, produces a button, and allows you to choose multiple files
+def OpenFile(root, filelist,
+             textbox):  # Select Files function, produces a button, and allows you to choose multiple files
     filez = filedialog.askopenfilenames(parent=root, title='Select files')
-    filez = root.tk.splitlist(filez) #splits file list
+    filez = root.tk.splitlist(filez)  # splits file list
     filelist += filez  # added line
     Filebox(root, filelist, textbox)
     setFiles(filelist)
+
+
 ######################################################################################################################
 
 textbox = Text(root)
 textbox.pack()
-textbox.config(height = 15)
-textbox.config(width = 50)
-textbox.config(state = DISABLED)
+textbox.config(height=15)
+textbox.config(width=50)
+textbox.config(state=DISABLED)
 
 button = Button(text="Select Files", width=30, command=lambda: OpenFile(root, filelist, textbox))
 button.pack(padx=25, pady=20, side=tk.TOP)
@@ -58,6 +64,7 @@ button2.pack(padx=25, pady=10, side=tk.TOP)
 #####################################################################################################
 def Filebox(root, filelist, textbox):  # opens a child window that displays the current selected file
     textbox.config(state=NORMAL)
+
     def redirector(inputStr):
         textbox.insert(INSERT, inputStr)  # function to redirect output
 
@@ -72,13 +79,17 @@ def Filebox(root, filelist, textbox):  # opens a child window that displays the 
 
 ######################################################################################################
 def EnterComs(root):  # opens a child window that allows user to type in
+    definers = getDefiners(LANGUAGE)
+    lines = getLines(filelist[0], definers)
     win2: Toplevel = tk.Toplevel(bg='white')
     win2.title("Function Documentation")
-    win2.geometry("900x600") # creates child window
+    win2.geometry("900x600")  # creates child window
     Label(win2, text="Function name:").grid(row=0, padx=5, pady=5)
     Label(win2, text="Expected return type:").grid(row=1, padx=5, pady=5)
-    Label(win2, text="Info on each of the parameters (Include how you passed your ref/val):").grid(row=2, padx=5, pady=5)
-    Label(win2, text="Possible errors this code may throw that can change possible variables:").grid(row=3, padx=5, pady=5)
+    Label(win2, text="Info on each of the parameters (Include how you passed your ref/val):").grid(row=2, padx=5,
+                                                                                                   pady=5)
+    Label(win2, text="Possible errors this code may throw that can change possible variables:").grid(row=3, padx=5,
+                                                                                                     pady=5)
     Label(win2, text="Description of function:").grid(row=4, padx=5, pady=5)
     e1 = Entry(win2)
     e2 = Entry(win2)
@@ -87,26 +98,52 @@ def EnterComs(root):  # opens a child window that allows user to type in
     e5 = Entry(win2)
 
     e1.grid(row=0, column=1, padx=5, pady=5)
-    e1.config(width = 40)
+    e1.config(width=40)
     e2.grid(row=1, column=1, padx=5, pady=5)
-    e2.config(width = 40)
+    e2.config(width=40)
     e3.grid(row=2, column=1, padx=5, pady=5)
-    e3.config(width = 40)
+    e3.config(width=40)
     e4.grid(row=3, column=1, padx=5, pady=5)
-    e4.config(width = 40)
+    e4.config(width=40)
     e5.grid(row=4, column=1, padx=5, pady=5)
-    e5.config(width = 40)
-    
+    e5.config(width=40)
+
     Button(win2, text="No Comment").grid(row=9, column=0, padx=40, pady=30)
-    Button(win2, text=">>").grid(row=9, column=1, padx=25, pady=30)
+    Button(win2, text=">>", command=lambda:retrieve_input()).grid(row=9, column=1, padx=25, pady=30)
 
     textbox = Text(win2)
-    textbox.grid(row = 10, column = 0)
-    textbox.config(width = 40)
-    textbox.config(height = 1)
-    textbox.config(state = DISABLED)
+    textbox.grid(row=10, column=0)
+    textbox.config(width=40)
+    textbox.config(height=1)
+    textbox.config(state=DISABLED)
+
+    def retrieve_input():
+        entries = []
+        temp = e1.get()
+        entries.append(temp)
+        temp = e2.get()
+        entries.append(temp)
+        temp = e3.get()
+        entries.append(temp)
+        temp = e4.get()
+        entries.append(temp)
+        temp = e5.get()
+        entries.append(temp)
+        addComment(filelist[0],entries,0)
 
 
+
+
+
+#######################################################################################################
+# def YesNo():
+#     if entry.get() == "!":
+#         slabel = tkinter.Label(root, text="You have choosen to skip this line")
+#         slabel.pack()
+#     else:
+#         tlabel = tkinter.Label(root, text="")
+#         tlabel.pack()
+#
 
 #######################################################################################################
 
