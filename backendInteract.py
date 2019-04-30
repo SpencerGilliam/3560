@@ -39,6 +39,7 @@ def getFileContent(file):
 def addComment(file, comment, index):
 	comChar = getComments(LANGUAGE)
 	comContent = []
+	comChar = comChar[0]
 	
 	for line in comment:
 		comContent.append(comChar + line)
