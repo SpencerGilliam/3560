@@ -37,17 +37,18 @@ def getFileContent(file):
 #call this in child window when user accepts their comment input like addComment(curFile, commentList, index) (NEEDS DONE)
 						#get index arg from dict that is returned by getLines
 def addComment(file, comment, index):
-	newContent = dc.comment(getFileContent(file), comment, index)
-	f = open(file, 'w')
 	comChar = getComments(LANGUAGE)
 	comContent = []
-
-	for line in newContent:
+	
+	for line in comment:
 		comContent.append(comChar + line)
+	
+	newContent = dc.comment(getFileContent(file), comContent, index)
+	f = open(file, 'w')
 
-	comContent = "\n".join(newContent)
-	if comContent != "machine broke error":
-		f.write(comContent)
+	newContent = "\n".join(newContent)
+	if newContent != "machine broke error":
+		f.write(newContent)
 
 #do NOT call this one
 def getDefiners(lang):
