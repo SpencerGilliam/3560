@@ -51,7 +51,6 @@ def addComment(file, comment, index, lang):
 	if newContent != "machine broke error":
 		f.write(newContent)
 
-#do NOT call this one
 def getDefiners(lang):
 	with open('languageKeywords.json', encoding='utf-8') as langInfo:
 		data = json.loads(langInfo.read())
