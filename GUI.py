@@ -66,7 +66,7 @@ def Filebox(root, filelist, textbox):  # opens a child window that displays the 
     textbox.config(state=NORMAL)
 
     def redirector(inputStr):
-        textbox.insert(INSERT, inputStr)  # function to redirect output
+       textbox.insert(INSERT, inputStr)  # function to redirect output
 
     sys.stdout.write = redirector  # set sysout to redirector
     textbox.delete("1.0", END)
@@ -82,6 +82,8 @@ def EnterComs(root):  # opens a child window that allows user to type in
     definers = getDefiners(LANGUAGE)
     lines = getLines(filelist[0], definers)
     keys = list(lines.keys())
+    keys.sort()
+    keys.reverse()
     win2: Toplevel = tk.Toplevel(bg='white')
     win2.title("Function Documentation")
     win2.geometry("900x600")  # creates child window
@@ -139,13 +141,12 @@ def EnterComs(root):  # opens a child window that allows user to type in
         temp = e5.get()
         if(temp != ""):
             entries.append(temp)
-        if len(entries) != 0:
-            addComment(filelist[0],entries,keys[0] + win2.button_clicks - 1)
         e1.delete(0, "end")
         e2.delete(0, "end")
         e3.delete(0, "end")
         e4.delete(0, "end")
         e5.delete(0, "end")
+        addComment(filelist[0],entries,keys[0] + win2.button_clicks - 1)
         if len(keys) != 0:
             del lines[keys[0]]
             del keys[0]
@@ -171,6 +172,8 @@ def display_next(lines, textbox, keys, definers):
         else:
             lines = getLines(filelist[0], definers)
             keys = list(lines.keys())
+            keys.sort()
+            keys.reverse()
     textbox.config(state=NORMAL)
     textbox.delete("1.0", END)
     textbox.insert(END, lines[keys[0]])
