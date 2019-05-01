@@ -82,7 +82,7 @@ def Filebox(root, filelist, textbox):  #sends file to textbox in root
 def EnterComs(root, SELECTED):  # opens a child window that allows user to type in
     if len(filelist) == 0: #exits if no files selected
         exit()
-    definers = getDefiners(LANGUAGE)
+    definers = getDefiners(SELECTED[0])
     lines = getLines(filelist[0], definers) #grabs definers and lines from backend
     keys = list(lines.keys()) 
     keys.sort()
