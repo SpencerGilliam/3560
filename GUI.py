@@ -146,7 +146,7 @@ def EnterComs(root):  # opens a child window that allows user to type in
         e3.delete(0, "end")
         e4.delete(0, "end")
         e5.delete(0, "end")
-        addComment(filelist[0],entries,keys[0] - win2.button_clicks - 1)
+        addComment(filelist[0],entries,keys[0])
         if len(keys) != 0:
             del lines[keys[0]]
             del keys[0]
