@@ -87,7 +87,6 @@ def EnterComs(root):  # opens a child window that allows user to type in
     win2: Toplevel = tk.Toplevel(bg='white')
     win2.title("Function Documentation")
     win2.geometry("900x600")  # creates child window
-    win2.button_clicks = 0
     Label(win2, text="Function name:").grid(row=0, padx=5, pady=5)
     Label(win2, text="Expected return type:").grid(row=1, padx=5, pady=5)
     Label(win2, text="Info on each of the parameters (Include how you passed your ref/val):").grid(row=2, padx=5,
@@ -124,7 +123,6 @@ def EnterComs(root):  # opens a child window that allows user to type in
     textbox.config(state=DISABLED)
 
     def retrieve_input(lines, keys, definers):            
-        win2.button_clicks += 1
         entries = []
         temp = e1.get()
         if(temp != ""):
@@ -153,7 +151,6 @@ def EnterComs(root):  # opens a child window that allows user to type in
         display_next(lines, textbox, keys, definers)
 
     def nocomment(lines, keys, definers):
-        win2.button_clicks += 1
         e1.delete(0, "end")
         e2.delete(0, "end")
         e3.delete(0, "end")
