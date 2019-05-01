@@ -79,14 +79,13 @@ def Filebox(root, filelist, textbox):  # opens a child window that displays the 
 
 ######################################################################################################
 def EnterComs(root):  # opens a child window that allows user to type in
-    i = 0
-    j = 0
     definers = getDefiners(LANGUAGE)
     lines = getLines(filelist[0], definers)
-    i = find(lines, i)
+    keys = list(lines.keys())
     win2: Toplevel = tk.Toplevel(bg='white')
     win2.title("Function Documentation")
     win2.geometry("900x600")  # creates child window
+    win2.button_clicks = 0
     Label(win2, text="Function name:").grid(row=0, padx=5, pady=5)
     Label(win2, text="Expected return type:").grid(row=1, padx=5, pady=5)
     Label(win2, text="Info on each of the parameters (Include how you passed your ref/val):").grid(row=2, padx=5,
@@ -111,24 +110,19 @@ def EnterComs(root):  # opens a child window that allows user to type in
     e5.grid(row=4, column=1, padx=5, pady=5)
     e5.config(width=40)
     
-    Button(win2, text="No Comment").grid(row=9, column=0, padx=40, pady=30)
-    Button(win2, text=">>", command=lambda:retrieve_input(j, lines)).grid(row=9, column=1, padx=25, pady=30)
+    Button(win2, text="No Comment", command=lambda:nocomment(lines, keys, definers)).grid(row=9, column=0, padx=40, pady=30)
+    Button(win2, text=">>", command=lambda:retrieve_input(lines, keys, definers)).grid(row=9, column=1, padx=25, pady=30)
 
     textbox = Text(win2)
     textbox.grid(row=10, column=0)
     textbox.config(width=40)
     textbox.config(height=1)
     #textbox.insert(END, filelist[j])
-    textbox.insert(END, lines[i])
+    textbox.insert(END, lines[keys[0]])
     textbox.config(state=DISABLED)
 
-    def retrieve_input(j, lines):
-        i = 0
-        i = find(lines, i)
-        if i == -1:
-            j = j + 1
-            lines = getLines(filelist[j], definers)
-            i = 0
+    def retrieve_input(lines, keys, definers):            
+        win2.button_clicks += 1
         entries = []
         temp = e1.get()
         if(temp != ""):
@@ -145,38 +139,45 @@ def EnterComs(root):  # opens a child window that allows user to type in
         temp = e5.get()
         if(temp != ""):
             entries.append(temp)
-        addComment(filelist[j],entries,i)
+        if len(entries) != 0:
+            addComment(filelist[0],entries,keys[0] + win2.button_clicks - 1)
         e1.delete(0, "end")
         e2.delete(0, "end")
         e3.delete(0, "end")
         e4.delete(0, "end")
         e5.delete(0, "end")
-        
-        lines.pop(i, None)
-        display_next(j, lines, textbox)
+        if len(keys) != 0:
+            del lines[keys[0]]
+            del keys[0]
+        display_next(lines, textbox, keys, definers)
 
-def display_next(j, lines, textbox):
-    i = 0
-    i = find(lines, i)
-    if i == -1:
-        j = j + 1
-        lines = getLines(fileslist[j], definers)
-        i = 0
+    def nocomment(lines, keys, definers):
+        win2.button_clicks += 1
+        e1.delete(0, "end")
+        e2.delete(0, "end")
+        e3.delete(0, "end")
+        e4.delete(0, "end")
+        e5.delete(0, "end")
+        if len(keys) != 0:
+            del lines[keys[0]]
+            del keys[0]
+        display_next(lines, textbox, keys, definers)
+
+def display_next(lines, textbox, keys, definers):
+    if len(lines) == 0:
+        filelist.pop(0)
+        if len(filelist) == 0:
+            exit()
+        else:
+            lines = getLines(filelist[0], definers)
+            keys = list(lines.keys())
     textbox.config(state=NORMAL)
     textbox.delete("1.0", END)
-    textbox.insert(END, lines[i])
+    textbox.insert(END, lines[keys[0]])
     textbox.config(state=DISABLED)
 
-def find(lines, i):
-    while not i in lines:
-        i = i + 1
-    if not bool(lines):
-        return -1
-    else:
-        return i
 
 
-#problem: cannot go past second function in file and only outputs to top function. might be scope issue
 root.mainloop()
 
 ########################################################################################################################

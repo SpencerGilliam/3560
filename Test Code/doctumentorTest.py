@@ -1,19 +1,17 @@
 
 
-#funcTests
+
+#1
 class funcTests():
-
-#func
-
+#2
+        
 	def func(self, test):
-
-
 		print("Hello,", test)
-#func2
+#3
 
 
 	def func2(self, test):
-#func
+#4
 		print("Goodbye,", test)
 
 
