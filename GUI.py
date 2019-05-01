@@ -6,8 +6,8 @@ import tkinter as tk
 from tkinter.ttk import Combobox
 from backendInteract import *
 
+SELECTED = []
 filelist = []  # list to store files
-lang = ""
 root: Tk = tk.Tk() # main window
 root.geometry("500x500")
 
@@ -26,12 +26,11 @@ class Language(tk.Frame):  # Dropbox
                            state="readonly")  # Drop down menu
 
         cb.pack()
-        cb.bind("<<ComboboxSelected>>", lambda event, arg=cb: self.callback(event, arg)) #event to grab selected language
+        cb.bind("<<ComboboxSelected>>", lambda event, argu=cb: self.callback(event, argu)) #event to grab selected language
 
-    def callback(self, event, arg): #actual function call
-        setLang(arg.get())
-        lang = ""
-        lang = arg.get()
+    def callback(self, event, argu): #actual function call
+        SELECTED.clear()
+        SELECTED.append(argu.get())
 
 
 if __name__ == "__main__":
@@ -59,7 +58,7 @@ textbox.config(state=DISABLED) #creates textbox in middle of main window
 button = Button(text="Select Files", width=30, command=lambda: OpenFile(root, filelist, textbox))
 button.pack(padx=25, pady=20, side=tk.TOP) #select files button
 
-button2 = Button(text="Document", width=30, command=lambda: EnterComs(root))
+button2 = Button(text="Document", width=30, command=lambda: EnterComs(root, SELECTED))
 button2.pack(padx=25, pady=10, side=tk.TOP) #document button
 
 
@@ -80,7 +79,7 @@ def Filebox(root, filelist, textbox):  #sends file to textbox in root
 ######################################################################################################
 
 ######################################################################################################
-def EnterComs(root):  # opens a child window that allows user to type in
+def EnterComs(root, SELECTED):  # opens a child window that allows user to type in
     if len(filelist) == 0: #exits if no files selected
         exit()
     definers = getDefiners(LANGUAGE)
@@ -116,7 +115,7 @@ def EnterComs(root):  # opens a child window that allows user to type in
     e5.config(width=40) #configures entry boxes
     
     Button(win2, text="No Comment", command=lambda:nocomment(lines, keys, definers)).grid(row=9, column=0, padx=40, pady=30) #no comment button
-    Button(win2, text=">>", command=lambda:retrieve_input(lines, keys, definers)).grid(row=9, column=1, padx=25, pady=30) #next button
+    Button(win2, text=">>", command=lambda:retrieve_input(lines, keys, definers, SELECTED)).grid(row=9, column=1, padx=25, pady=30) #next button
 
     textbox = Text(win2)
     textbox.grid(row=10, column=0)
@@ -125,7 +124,7 @@ def EnterComs(root):  # opens a child window that allows user to type in
     textbox.insert(END, lines[keys[0]])
     textbox.config(state=DISABLED) #makes textbox that displays the first function to document
 
-    def retrieve_input(lines, keys, definers):   #takes input from user and adds it to document and iterates to next function         
+    def retrieve_input(lines, keys, definers, SELECTED):   #takes input from user and adds it to document and iterates to next function         
         if len(filelist) == 0: #exits program if no more files detected
             exit()
         entries = [] #makes entries list
@@ -149,7 +148,7 @@ def EnterComs(root):  # opens a child window that allows user to type in
         e3.delete(0, "end")
         e4.delete(0, "end")
         e5.delete(0, "end") #clears fields
-        addComment(filelist[0],entries,keys[0], lang) #adds comment to file at the line above the function (given by keys)
+        addComment(filelist[0],entries,keys[0], SELECTED[0]) #adds comment to file at the line above the function (given by keys)
         if len(keys) != 0: #if there are still keys removes that entry from dictionary and keys
             del lines[keys[0]]
             del keys[0]
