@@ -7,6 +7,7 @@ from tkinter.ttk import Combobox
 from backendInteract import *
 
 filelist = []  # list to store files
+lang = ""
 root: Tk = tk.Tk() # main window
 root.geometry("500x500")
 
@@ -29,6 +30,8 @@ class Language(tk.Frame):  # Dropbox
 
     def callback(self, event, arg): #actual function call
         setLang(arg.get())
+        lang = ""
+        lang = arg.get()
 
 
 if __name__ == "__main__":
@@ -146,7 +149,7 @@ def EnterComs(root):  # opens a child window that allows user to type in
         e3.delete(0, "end")
         e4.delete(0, "end")
         e5.delete(0, "end") #clears fields
-        addComment(filelist[0],entries,keys[0]) #adds comment to file at the line above the function (given by keys)
+        addComment(filelist[0],entries,keys[0], lang) #adds comment to file at the line above the function (given by keys)
         if len(keys) != 0: #if there are still keys removes that entry from dictionary and keys
             del lines[keys[0]]
             del keys[0]
