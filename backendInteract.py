@@ -36,8 +36,8 @@ def getFileContent(file):
 
 #call this in child window when user accepts their comment input like addComment(curFile, commentList, index) (NEEDS DONE)
 						#get index arg from dict that is returned by getLines
-def addComment(file, comment, index):
-	comChar = getComments(LANGUAGE)
+def addComment(file, comment, index, lang):
+	comChar = getComments(lang)
 	comContent = []
 	comChar = comChar[0]
 	
