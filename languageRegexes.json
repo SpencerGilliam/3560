@@ -1,0 +1,19 @@
+{
+
+  "Python": [],
+  "C": [],
+  "C++": ["((unsigned (char|int|short|short int|long))|char|float|long|string|void|int|bool|struct)\\s([a-z]+)\\s?\\(\\)"],
+  "C#": [],
+  "Go": [],
+  "Java": [],
+  "Javascript": [],
+  "PHP": [],
+  "Kotlin": [],
+  "Scala": [],
+  "Haskell": [],
+  "Ruby": [],
+  "Lua": [],
+  "Rust": [],
+  "Perl": []
+
+}
