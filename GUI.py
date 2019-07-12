@@ -44,8 +44,6 @@ def OpenFile(root, filelist,
     filez = root.tk.splitlist(filez)  # splits file list
     filelist += filez  # adds files to list
     Filebox(root, filelist, textbox) #calls filebox to display files selected
-    setFiles(filelist) #sets the files in backend
-
 
 ######################################################################################################################
 
@@ -82,7 +80,7 @@ def Filebox(root, filelist, textbox):  #sends file to textbox in root
 def EnterComs(root, SELECTED):  # opens a child window that allows user to type in
     if len(filelist) == 0: #exits if no files selected
         exit()
-    definers = getDefiners(SELECTED[0])
+    definers = getRegex(SELECTED[0])
     lines = getLines(filelist[0], definers) #grabs definers and lines from backend
     keys = list(lines.keys()) 
     keys.sort()
