@@ -1,8 +1,8 @@
 {
 
-  "Python": "",
-  "C": "^((unsigned (char|int|short|short int|long))|char|float|long|void|int|bool|struct)\\s([a-z]+)\\s?\\(([a-zA-Z0-9 \\t]*)\\)",
-  "C++": "^((unsigned (char|int|short|short int|long))|char|float|long|string|void|int|bool|struct)\\s([a-z]+)\\s?\\(([a-zA-Z0-9 \\t]*)\\)",
+  "Python": "((^|\\t+)def [a-zA-Z0-9]+\\([a-zA-Z0-9\\ ,]*\\)\\:)",
+  "C": "^(((unsigned|signed)(char|([short ]+|[long ]+)(int)?))|(([short ]+|[long ]+))int|long long|short|char|float|string|void|int|bool|struct)+\\s([a-zA-Z0-9]+)\\s?\\(([a-zA-Z0-9 \\t]*)\\)",
+  "C++": "^((public|private|protected) )?(((unsigned|signed)(char|([short ]+|[long ]+)(int)?))|(([short ]+|[long ]+))int|long long|short|char|float|string|void|int|bool|struct)+\\s([a-zA-Z0-9]+)\\s?\\(([a-zA-Z0-9 ,\\t]*)\\)",
   "C#": "",
   "Go": "",
   "Java": "",
