@@ -1,12 +1,12 @@
 import tkinter
 from tkinter import *
-from tkinter import filedialog, Tk, Toplevel
+from tkinter import filedialog, Tk, Toplevel, messagebox
 import pprint
 import tkinter as tk
 from tkinter.ttk import Combobox
 from backendInteract import *
 
-SELECTED = []
+SELECTED = ""
 filelist = []  # list to store files
 root: Tk = tk.Tk() # main window
 root.geometry("500x500")
@@ -26,11 +26,12 @@ class Language(tk.Frame):  # Dropbox
                            state="readonly")  # Drop down menu
 
         cb.pack()
+        cb.set("Select Language")
         cb.bind("<<ComboboxSelected>>", lambda event, argu=cb: self.callback(event, argu)) #event to grab selected language
 
     def callback(self, event, argu): #actual function call
-        SELECTED.clear()
-        SELECTED.append(argu.get())
+        global SELECTED
+        SELECTED = argu.get()
 
 
 if __name__ == "__main__":
@@ -56,7 +57,8 @@ textbox.config(state=DISABLED) #creates textbox in middle of main window
 button = Button(text="Select Files", width=30, command=lambda: OpenFile(root, filelist, textbox))
 button.pack(padx=25, pady=20, side=tk.TOP) #select files button
 
-button2 = Button(text="Document", width=30, command=lambda: EnterComs(root, SELECTED))
+button2 = Button(text="Document", width=30, command=lambda: EnterComs(root, SELECTED) if not SELECTED == ""
+                                                    else messagebox.showinfo("Error", "Please Select a Language"))
 button2.pack(padx=25, pady=10, side=tk.TOP) #document button
 
 
@@ -80,7 +82,7 @@ def Filebox(root, filelist, textbox):  #sends file to textbox in root
 def EnterComs(root, SELECTED):  # opens a child window that allows user to type in
     if len(filelist) == 0: #exits if no files selected
         exit()
-    definers = getRegex(SELECTED[0])
+    definers = getRegex(SELECTED)
     lines = getLines(filelist[0], definers) #grabs definers and lines from backend
     keys = list(lines.keys()) 
     keys.sort()
