@@ -32,6 +32,7 @@ class Application(tk.Frame):
 
     def addContent(self, contentFrame=None):
         self.pages.append(Pages.Menu(WIDTH))
+        self.pages.append(Pages.DocumenterPage(WIDTH))
 
 if __name__ == "__main__":
     root = tk.Tk()
