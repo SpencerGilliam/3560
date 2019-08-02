@@ -9,4 +9,4 @@
     * Create backup files before editing the file
 * Frontend
     * Read json for comment formatting rather than use hardcoded strings
-    * Remove child windows by using lift/place and Page classes
+    * ~Remove child windows by using lift/place and Page classes~
